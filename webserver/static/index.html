@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CubeSat Telemetry Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header class="dashboard-header">
+        <div class="header-top">
+            <h1>CubeSat Telemetry Dashboard</h1>
+            <div class="status-indicator">
+                <span class="status-dot active"></span>
+                <span id="status-text">Ready</span>
+            </div>
+        </div>
+
+        <!-- Playback Controls -->
+        <div class="playback-controls" id="playback-controls" style="display: none;">
+            <div class="controls-left">
+                <button id="btn-play" class="pb-btn">▶ Play</button>
+                <button id="btn-pause" class="pb-btn" style="display:none;">⏸ Pause</button>
+                <button id="btn-reset" class="pb-btn">⏮ Reset</button>
+            </div>
+
+            <div class="scrubber-container">
+                <input type="range" id="time-scrubber" min="0" max="100" value="0" class="scrubber" disabled>
+            </div>
+
+            <div class="time-display">
+                <span id="current-playback-time">00:00:00</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="bento-grid">
+        <!-- Environment (DHT11) -->
+        <div class="bento-card">
+            <h2>Environment (DHT11)</h2>
+            <div class="current-values">
+                <div><span class="label">Temp:</span> <span id="val-dht-temp">--</span> °C</div>
+                <div><span class="label">Hum:</span> <span id="val-dht-hum">--</span> %</div>
+            </div>
+            <div class="chart-container">
+                <canvas id="dhtChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Pressure & Altitude (BMP280) -->
+        <div class="bento-card">
+            <h2>Pressure & Altitude (BMP280)</h2>
+            <div class="current-values">
+                <div><span class="label">Pressure:</span> <span id="val-bmp-press">--</span> hPa</div>
+                <div><span class="label">Altitude:</span> <span id="val-bmp-alt">--</span> m</div>
+            </div>
+            <div class="chart-container">
+                <canvas id="bmpChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Motion (MPU9250) -->
+        <div class="bento-card mpu-card">
+            <h2>Motion (MPU9250)</h2>
+            <div class="current-values mpu-values">
+                <div><span class="label">Accel Z:</span> <span id="val-mpu-accel-z">--</span> g</div>
+                <div><span class="label">Gyro Z:</span> <span id="val-mpu-gyro-z">--</span> °/s</div>
+            </div>
+            <div class="charts-row">
+                <div class="chart-container">
+                    <canvas id="accelChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="gyroChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vibration -->
+        <div class="bento-card">
+            <h2>Vibration Sensor</h2>
+            <div class="current-values">
+                <div><span class="label">Level:</span> <span id="val-vib">--</span></div>
+            </div>
+            <div class="chart-container">
+                <canvas id="vibChart"></canvas>
+            </div>
+        </div>
+
+        <!-- GPS Location -->
+        <div class="bento-card">
+            <h2>GPS Location</h2>
+            <div class="current-values" style="font-size: 1rem; flex-wrap: wrap;">
+                <div><span class="label">Lat:</span> <span id="val-gps-lat">--</span></div>
+                <div><span class="label">Lon:</span> <span id="val-gps-lon">--</span></div>
+                <div><span class="label">Alt:</span> <span id="val-gps-alt">--</span> m</div>
+            </div>
+            <div class="chart-container">
+                <canvas id="gpsChart"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Last update: <span id="last-update">--</span>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
